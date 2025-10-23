@@ -46,7 +46,7 @@ module "ewfadmin_autoscaling_groups" {
   ]
   # Auto scaling group
   asg_name                       = "ewfadmin-asg"
-  vpc_zone_identifier            = data.aws_subnet_ids.web.ids
+  vpc_zone_identifier            = data.aws_subnets.web.ids
   health_check_type              = "ELB"
   min_size                       = var.min_size
   max_size                       = var.max_size
@@ -65,9 +65,9 @@ module "ewfadmin_autoscaling_groups" {
 
   tags_as_map = merge(
     local.default_tags,
-    map(
-      "ServiceTeam", "${upper(var.application)}-FE-Support"
-    )
+    tomap({
+      ServiceTeam = "${upper(var.application)}-FE-Support"
+    })
   )
 
   depends_on = [
@@ -79,7 +79,8 @@ module "ewfadmin_autoscaling_groups" {
 # EWF Admin CloudWatch Alarms
 #--------------------------------------------
 module "ewfadmin_autoscaling_groups_alarms" {
-  source = "git@github.com:companieshouse/terraform-modules//aws/asg-cloudwatch-alarms?ref=tags/1.0.108"
+  # source = "git@github.com:companieshouse/terraform-modules//aws/asg-cloudwatch-alarms?ref=tags/1.0.108"
+  source = "git@github.com:companieshouse/terraform-modules//aws/asg-cloudwatch-alarms?ref=terraform_upgrade"
 
   autoscaling_group_name = module.ewfadmin_autoscaling_groups.this_autoscaling_group_name
   prefix                 = "ewfadmin-asg-alarms"

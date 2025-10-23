@@ -1,8 +1,9 @@
 module "ewfadmin_iam_profile" {
-  source = "git@github.com:companieshouse/terraform-modules//aws/instance_profile?ref=tags/1.0.59"
+  # source = "git@github.com:companieshouse/terraform-modules//aws/instance_profile?ref=tags/1.0.59"
+  source = "git@github.com:companieshouse/terraform-modules//aws/instance_profile?ref=terraform_upgrade"
 
   name       = "ewfadmin-profile"
-  enable_SSM = true
+  enable_ssm = true
   cw_log_group_arns = length(local.ewfadmin_log_groups) > 0 ? flatten([
     formatlist(
       "arn:aws:logs:%s:%s:log-group:%s:*:*",
@@ -50,10 +51,11 @@ module "ewfadmin_iam_profile" {
 }
 
 module "xmladmin_iam_profile" {
-  source = "git@github.com:companieshouse/terraform-modules//aws/instance_profile?ref=tags/1.0.59"
+  # source = "git@github.com:companieshouse/terraform-modules//aws/instance_profile?ref=tags/1.0.59"
+  source = "git@github.com:companieshouse/terraform-modules//aws/instance_profile?ref=terraform_upgrade"
 
   name       = "xmladmin-profile"
-  enable_SSM = true
+  enable_ssm = true
   cw_log_group_arns = length(local.xmladmin_log_groups) > 0 ? flatten([
     formatlist(
       "arn:aws:logs:%s:%s:log-group:%s:*:*",
@@ -101,10 +103,11 @@ module "xmladmin_iam_profile" {
 }
 
 module "xmloutadmin_iam_profile" {
-  source = "git@github.com:companieshouse/terraform-modules//aws/instance_profile?ref=tags/1.0.59"
+  # source = "git@github.com:companieshouse/terraform-modules//aws/instance_profile?ref=tags/1.0.59"
+  source = "git@github.com:companieshouse/terraform-modules//aws/instance_profile?ref=terraform_upgrade"
 
   name       = "xmloutadmin-profile"
-  enable_SSM = true
+  enable_ssm = true
   cw_log_group_arns = length(local.xmloutadmin_log_groups) > 0 ? flatten([
     formatlist(
       "arn:aws:logs:%s:%s:log-group:%s:*:*",

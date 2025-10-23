@@ -6,21 +6,45 @@ data "aws_vpc" "vpc" {
   }
 }
 
-data "aws_subnet_ids" "public" {
-  vpc_id = data.aws_vpc.vpc.id
+# data "aws_subnet_ids" "public" {
+#   vpc_id = data.aws_vpc.vpc.id
+#   filter {
+#     name   = "tag:Name"
+#     values = ["sub-public-*"]
+#   }
+# }
+
+# data "aws_subnet_ids" "web" {
+#   vpc_id = data.aws_vpc.vpc.id
+#   filter {
+#     name   = "tag:Name"
+#     values = ["sub-web-*"]
+#   }
+# }
+
+data "aws_subnets" "public" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.vpc.id]
+  }
   filter {
     name   = "tag:Name"
     values = ["sub-public-*"]
   }
 }
 
-data "aws_subnet_ids" "web" {
-  vpc_id = data.aws_vpc.vpc.id
+data "aws_subnets" "web" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.vpc.id]
+  }
   filter {
     name   = "tag:Name"
     values = ["sub-web-*"]
   }
 }
+
+
 
 data "aws_security_group" "nagios_shared" {
   filter {
@@ -82,7 +106,10 @@ data "aws_acm_certificate" "acm_cert" {
 
 data "aws_ami" "adminsites" {
   owners      = [data.vault_generic_secret.account_ids.data["development"]]
-  most_recent = var.ami_name == "admin-sites-*" ? true : false
+  
+  # TEMPORARY: Changed for upgrade - revert after
+  # most_recent = var.ami_name == "admin-sites-*" ? true : false
+  most_recent = false  # Temporarily disabled for tf upgrade to prevent creation of new resources
 
   filter {
     name = "name"
