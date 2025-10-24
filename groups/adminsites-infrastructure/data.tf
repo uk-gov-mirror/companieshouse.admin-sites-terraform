@@ -108,8 +108,8 @@ data "aws_ami" "adminsites" {
   owners      = [data.vault_generic_secret.account_ids.data["development"]]
   
   # TEMPORARY: Changed for upgrade - revert after
-  # most_recent = var.ami_name == "admin-sites-*" ? true : false
-  most_recent = false  # Temporarily disabled for tf upgrade to prevent creation of new resources
+  most_recent = var.ami_name == "admin-sites-*" ? true : false
+  # most_recent = false  # remove after testing upgrade
 
   filter {
     name = "name"
@@ -117,6 +117,12 @@ data "aws_ami" "adminsites" {
       var.ami_name,
     ]
   }
+
+  # filter {
+  #   name   = "image-id"  # Change from "name" to "image-id"
+  #   values = ["ami-05bccdb30f3ab3b9f"]  #remove after testing upgrade
+  # }
+
 
   filter {
     name = "state"
