@@ -24,7 +24,8 @@ resource "aws_autoscaling_schedule" "xmloutadmin_schedule_start" {
 
 # ASG Module
 module "xmloutadmin_autoscaling_groups" {
-  source = "git@github.com:companieshouse/terraform-modules//aws/terraform-aws-autoscaling?ref=tags/1.0.36"
+  # source = "git@github.com:companieshouse/terraform-modules//aws/terraform-aws-autoscaling?ref=tags/1.0.36"
+  source = "git@github.com:companieshouse/terraform-modules//aws/terraform-aws-autoscaling?ref=terraform_upgrade"
 
   name = "xmloutadmin-webserver"
   # Launch configuration
